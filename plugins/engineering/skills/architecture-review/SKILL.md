@@ -1,15 +1,6 @@
 ---
 name: architecture-review
 description: Reviews system architecture, design documents, or technical proposals for scalability, reliability, security, and operational concerns. Fires when the user describes or shares an architecture.
-triggers:
-  - architecture review
-  - review this design
-  - system design feedback
-  - design doc review
-  - is this architecture scalable
-  - technical design review
-  - infrastructure review
-  - ADR review
 ---
 
 # Architecture Review Skill

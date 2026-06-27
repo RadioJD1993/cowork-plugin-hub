@@ -1,18 +1,6 @@
 ---
 name: compliance-check
 description: Checks documents, workflows, or practices for compliance with relevant legal and regulatory frameworks. Fires when a user asks about compliance, regulatory requirements, or whether something is permitted.
-triggers:
-  - compliance check
-  - is this compliant
-  - regulatory requirements
-  - are we following the rules
-  - does this violate
-  - ethics rules
-  - bar rules
-  - rule 1.5
-  - fee agreement compliance
-  - HIPAA
-  - state bar requirements
 ---
 
 # Compliance Check Skill

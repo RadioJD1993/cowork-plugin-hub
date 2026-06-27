@@ -1,14 +1,6 @@
 ---
 name: nda-triage
 description: Rapidly triages Non-Disclosure Agreements to determine if they are standard, one-sided, or require negotiation before the client signs. Fires when a user mentions an NDA or confidentiality agreement.
-triggers:
-  - NDA
-  - non-disclosure agreement
-  - confidentiality agreement
-  - should my client sign this NDA
-  - triage this NDA
-  - review this NDA
-  - is this NDA standard
 ---
 
 # NDA Triage Skill

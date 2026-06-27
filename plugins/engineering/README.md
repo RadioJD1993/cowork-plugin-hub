@@ -18,7 +18,7 @@ AI-powered engineering assistant for code review, architecture analysis, inciden
 | `/engineering:pr-review` | Fetch and review a GitHub PR by number |
 | `/engineering:runbook` | Generate an operational runbook for a service |
 
-## Subagents
+## Agents
 
 | Subagent | Invoked By |
 |----------|------------|

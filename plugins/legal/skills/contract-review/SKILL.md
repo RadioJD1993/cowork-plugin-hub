@@ -1,14 +1,6 @@
 ---
 name: contract-review
 description: Automatically reviews contracts for risky clauses, missing provisions, and one-sided terms. Fires when a user shares or describes a contract for review.
-triggers:
-  - review this contract
-  - analyze this agreement
-  - look at this contract
-  - check this clause
-  - contract review
-  - is this clause enforceable
-  - what does this provision mean
 ---
 
 # Contract Review Skill

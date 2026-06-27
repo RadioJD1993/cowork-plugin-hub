@@ -1,7 +1,6 @@
 ---
 name: case-intake
 description: Runs a structured case intake interview, captures all key facts, and outputs a completed intake summary with risk grade and recommended next steps.
-usage: /legal:case-intake
 ---
 
 # /legal:case-intake

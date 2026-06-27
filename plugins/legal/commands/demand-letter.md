@@ -1,7 +1,7 @@
 ---
 name: demand-letter
 description: Drafts a professional personal injury demand letter based on case facts, medical specials, and liability theory provided by the user.
-usage: /legal:demand-letter [brief case description]
+argument-hint: "[brief case description]"
 ---
 
 # /legal:demand-letter

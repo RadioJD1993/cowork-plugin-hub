@@ -18,7 +18,7 @@ AI-powered legal assistant for personal injury litigators. Covers contract revie
 | `/legal:demand-letter` | Draft a PI demand letter |
 | `/legal:case-intake` | Run a structured new-case intake interview |
 
-## Subagents
+## Agents
 
 | Subagent | Invoked By |
 |----------|------------|

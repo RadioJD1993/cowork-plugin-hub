@@ -1,7 +1,7 @@
 ---
 name: pr-review
 description: Fetches a GitHub pull request by number and performs a full code review using the code-review skill.
-usage: /engineering:pr-review [repo] [pr-number]
+argument-hint: "[repo] [pr-number]"
 ---
 
 # /engineering:pr-review

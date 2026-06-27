@@ -1,17 +1,6 @@
 ---
 name: risk-assessment
 description: Assesses litigation risk and case strength for personal injury matters. Fires when a user describes a case scenario, asks about case value, or requests a risk analysis.
-triggers:
-  - assess this case
-  - case evaluation
-  - risk assessment
-  - how strong is this case
-  - case value
-  - liability analysis
-  - damages analysis
-  - should we take this case
-  - case intake
-  - what are our chances
 ---
 
 # Risk Assessment Skill

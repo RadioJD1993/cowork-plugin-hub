@@ -1,18 +1,6 @@
 ---
 name: incident-response
 description: Guides engineers through a structured incident response process when an outage, degradation, or security event is detected. Fires on incident-related language.
-triggers:
-  - incident
-  - outage
-  - site is down
-  - service degraded
-  - production issue
-  - p0
-  - p1
-  - on-call
-  - incident response
-  - postmortem
-  - root cause
 ---
 
 # Incident Response Skill

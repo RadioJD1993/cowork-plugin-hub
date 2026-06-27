@@ -1,15 +1,6 @@
 ---
 name: code-review
 description: Performs a structured code review when the user shares code, a diff, or a pull request for review. Fires automatically on code review requests.
-triggers:
-  - review this code
-  - review this PR
-  - pull request review
-  - code review
-  - look at this diff
-  - what's wrong with this code
-  - feedback on this function
-  - check this implementation
 ---
 
 # Code Review Skill

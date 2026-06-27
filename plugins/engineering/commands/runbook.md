@@ -1,7 +1,7 @@
 ---
 name: runbook
 description: Generates a structured operational runbook for a service, feature, or infrastructure component based on a description provided by the user.
-usage: /engineering:runbook [service or component name]
+argument-hint: "[service or component name]"
 ---
 
 # /engineering:runbook

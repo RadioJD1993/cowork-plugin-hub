@@ -1,14 +1,6 @@
 ---
 name: deploy-checklist
 description: Generates a pre-deployment checklist and post-deployment verification steps tailored to the user's deployment type. Fires when the user describes an upcoming or in-progress deployment.
-triggers:
-  - deploy checklist
-  - pre-deploy
-  - ready to deploy
-  - about to push to production
-  - deployment review
-  - release checklist
-  - go-live checklist
 ---
 
 # Deploy Checklist Skill
