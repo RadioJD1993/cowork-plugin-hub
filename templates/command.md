@@ -8,23 +8,24 @@ usage: /plugin-name:command-name [required-arg] [optional-arg?]
 
 One-paragraph description of what this command does.
 
-## How to Use
+## How To Use
 
 Describe how to invoke the command and what arguments it accepts.
 
-```
+```text
 /plugin-name:command-name argument-value
 ```
 
 **Arguments:**
-- `required-arg` — Description of what this argument is
-- `optional-arg` — (Optional) Description, defaults to X if not provided
+
+- `required-arg` - Description of what this argument is.
+- `optional-arg` - Optional. Description, defaults to X if not provided.
 
 ## Steps
 
 1. First thing Claude does when this command fires.
 2. Second step.
-3. Third step (and so on).
+3. Third step.
 
 ## Output
 

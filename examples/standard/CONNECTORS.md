@@ -1,12 +1,13 @@
-# Standard Example — Connector Setup
+# Standard Example Connector Setup
 
 ## GitHub MCP
 
-1. Create a GitHub Personal Access Token: https://github.com/settings/tokens
-2. Grant `repo` scope.
-3. Set environment variable:
+1. Create a GitHub token at https://github.com/settings/tokens.
+2. Grant only the scopes needed for your use case.
+3. Set an environment variable outside this repository:
+
    ```bash
    export GITHUB_TOKEN=your_token_here
    ```
 
-The plugin will automatically connect to the GitHub MCP server on first use.
+The example uses the `GITHUB_TOKEN` environment variable placeholder in `.mcp.json`. Do not commit real token values.

@@ -1,39 +1,76 @@
 # Plugin Authoring Guide
 
-Everything you need to build a production-quality CoWork plugin from scratch.
+Use this guide to build a production-quality CoWork plugin that is useful to strangers and safe to publish.
 
-## 1. Understand the Components
+## Start From The Skeleton
 
-### plugin.json (Manifest)
-The manifest tells Cowork what your plugin is. Located at `.claude-plugin/plugin.json`.
+```bash
+bash scripts/new-plugin.sh
+```
+
+The scaffolder creates a plugin under `plugins/<name>`. You can also copy `base/skeleton` manually.
+
+## Required Files
+
+Every publishable plugin should include:
+
+- `.claude-plugin/plugin.json`
+- `README.md`
+- At least one `skills/<skill-name>/SKILL.md`
+
+Plugins that expose slash commands should add `commands/*.md`. Plugins that connect to tools should add `.mcp.json` and `CONNECTORS.md`.
+
+## Optional Production Files
+
+Use optional folders only when they carry real weight:
+
+| Path | Use it when |
+| --- | --- |
+| `subagents/` | A workflow needs delegated focused work with a narrow input and output contract. |
+| `hooks/` | The plugin needs lifecycle checks, validation, or packaging-time automation. |
+| `schemas/` | Commands, hooks, or scripts return structured JSON that should be validated. |
+| `scripts/` | Local processing is clearer as code than as Markdown instructions. |
+| `state_config.json` | The plugin needs documented non-secret state shape or defaults. |
+
+Do not add optional code or config just to look complete. Small plugins are easier to install, review, and trust.
+
+## Manifest
+
+`plugin.json` identifies the plugin.
 
 ```json
 {
   "name": "your-plugin",
   "version": "0.1.0",
   "description": "What this plugin does in one sentence.",
-  "author": { "name": "Your Name" }
+  "author": {
+    "name": "Your public author name or organization"
+  }
 }
 ```
 
-### Skills
-Skills are markdown files Claude reads automatically when relevant context is detected. Each skill = one SKILL.md file in `skills/skill-name/`.
+Names should be kebab-case. Descriptions should say what the plugin helps with, not how impressive it is.
 
-**SKILL.md frontmatter (required):**
+## Skills
+
+Skills are Markdown instruction files that Claude reads when the conversation matches their trigger language.
+
 ```yaml
 ---
 name: skill-name
 description: When Claude should apply this skill.
 triggers:
-  - trigger phrase 1
-  - trigger phrase 2
+  - review this report
+  - summarize this document
 ---
 ```
 
-### Commands
-Commands are slash commands the user triggers explicitly. Each command = one markdown file in `commands/`.
+Write one workflow per skill. Give Claude a clear sequence, output format, and edge-case behavior.
 
-**Command frontmatter (required):**
+## Commands
+
+Commands are explicit slash-command workflows.
+
 ```yaml
 ---
 name: command-name
@@ -42,49 +79,45 @@ usage: /plugin-name:command-name [args]
 ---
 ```
 
-### Subagents
-Subagents are scoped Claude instances delegated a narrow task within a larger skill or command workflow. Define them in `subagents/agent-name.md`.
+Commands should be predictable. If a command needs missing input, tell Claude exactly what to ask for.
 
-### .mcp.json (Connectors)
-Wires your plugin to external tools. Each entry is an MCP server connection.
+## Connectors
 
-## 2. Write Effective Skills
+`.mcp.json` wires a plugin to MCP servers. Keep it valid JSON and use environment variables for secrets:
 
-- **One workflow per skill** — don't pack everything into one SKILL.md
-- **Be specific about triggers** — vague triggers cause skills to fire at wrong times
-- **Define output format** — tell Claude exactly what the output should look like
-- **Handle edge cases** — what should Claude do when input is incomplete?
-
-## 3. Write Effective Commands
-
-- Commands should have predictable, consistent output
-- Always define the `usage` pattern with argument documentation
-- For multi-step commands, number the steps clearly
-- Commands can call skills internally — reference them by name
-
-## 4. Design Subagents
-
-- Keep scope narrow: one subagent = one focused task
-- Restrict `toolsAllowed` to only what the subagent needs
-- Always define a structured return format
-- Document what parent skill/command invokes this subagent
-
-## 5. Validate
-
-```bash
-claude plugin validate plugins/your-plugin
+```json
+{
+  "mcpServers": {
+    "example": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-example"],
+      "env": {
+        "EXAMPLE_TOKEN": "${EXAMPLE_TOKEN}"
+      }
+    }
+  }
+}
 ```
 
-Fix all errors before merging. Schema validation is authoritative.
+Document setup in `CONNECTORS.md`. Include missing-connector behavior in skills and commands.
 
-## 6. Test in Cowork
+## Privacy Review
 
-1. Install your plugin locally
-2. Trigger skills by using relevant language
-3. Run each slash command
-4. Verify MCP connector responses
+Before publishing, remove:
 
-## Reference
+- Personal names, private organization names, emails, phone numbers, and local paths
+- Client, customer, employee, vendor, or matter details
+- Internal prompts, strategy, and playbooks that should not be public
+- Hardcoded secrets and tokens
+- Generated plugin bundles or exports
 
-- [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins) — canonical examples
-- [TheDigitalGriot/cl-plugin-structure](https://github.com/TheDigitalGriot/cl-plugin-structure) — structure deep-dive and cowork-compatibility matrix
+Run `npm run validate`. For project-specific terms, add an untracked `privacy.denylist` file before running validation.
+
+## Publish Checklist
+
+- `npm run validate` passes.
+- `claude plugin validate plugins/<name>` passes when available.
+- README explains installation and usage.
+- Marketplace entry points to a real plugin path.
+- The plugin remains useful without private context.

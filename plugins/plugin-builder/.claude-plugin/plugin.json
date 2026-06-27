@@ -1,8 +1,8 @@
 {
   "name": "plugin-builder",
   "version": "0.1.0",
-  "description": "A meta-plugin for building other CoWork plugins. Guided workflow for creating, customizing, and validating plugins — produces a ready-to-install plugin package.",
+  "description": "A meta-plugin for building other CoWork plugins. Guided workflow for creating, customizing, and validating plugins.",
   "author": {
-    "name": "Bressman Law"
+    "name": "CoWork Plugin Hub contributors"
   }
 }
