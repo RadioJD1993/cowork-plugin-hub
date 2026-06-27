@@ -14,6 +14,7 @@
 ## Checklist
 
 - [ ] `npm run validate` passes locally.
+- [ ] `npm run catalog:check` passes, or I ran `npm run catalog` and committed the generated files.
 - [ ] `claude plugin validate` passes (if the CLI was available).
 - [ ] If a plugin was added/changed, it is listed in `.claude-plugin/marketplace.json` with a `source` path.
 - [ ] Skills use `name` + `description` frontmatter (no `triggers:`); commands use `name` + `description` (no `usage:`); agents live in `agents/`.

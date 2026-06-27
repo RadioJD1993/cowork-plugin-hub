@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate hub
+        run: npm run validate
+
+      - name: Check generated catalog
+        run: npm run catalog:check
+
+      - name: Stage release package
+        run: npm run package:release
+
+      - name: Create release archive
+        id: archive
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME:-manual}"
+          safe_version="${version//\//-}"
+          archive="cowork-plugin-hub-${safe_version}.tar.gz"
+          tar -czf "$archive" -C dist/release .
+          echo "archive=$archive" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "${{ steps.archive.outputs.archive }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "CoWork Plugin Hub ${GITHUB_REF_NAME}" \
+            --notes "Automated release package for ${GITHUB_REF_NAME}. See docs/catalog.md and release-manifest.json inside the archive."
+
+      - name: Upload manual package
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cowork-plugin-hub-manual-package
+          path: ${{ steps.archive.outputs.archive }}

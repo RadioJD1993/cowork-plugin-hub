@@ -10,7 +10,7 @@ on:
 
 jobs:
   hub-validate:
-    name: Hub validator (schema + privacy)
+    name: validate
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -20,13 +20,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
 
       - name: Run hub validation
         run: npm run validate
 
+      - name: Check generated catalog
+        run: npm run catalog:check
+
   cli-validate:
-    name: Canonical claude plugin validate
+    name: claude plugin validate (advisory)
     runs-on: ubuntu-latest
     continue-on-error: true # canonical check is advisory until the CLI is pinned; hub-validate is the gate
     steps:

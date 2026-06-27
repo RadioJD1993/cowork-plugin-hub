@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "hugging-face-space": {
+      "type": "sse",
+      "url": "${HF_SPACE_MCP_URL}"
+    }
+  }
+}

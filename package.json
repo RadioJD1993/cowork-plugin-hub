@@ -27,6 +27,11 @@
   },
   "scripts": {
     "validate": "node scripts/validate-hub.mjs",
+    "catalog": "node scripts/generate-catalog.mjs",
+    "catalog:check": "node scripts/generate-catalog.mjs --check",
+    "labels:check": "node scripts/sync-labels.mjs --dry-run",
+    "labels:sync": "node scripts/sync-labels.mjs",
+    "package:release": "node scripts/package-release.mjs",
     "validate:cli": "claude plugin validate .claude-plugin/marketplace.json",
     "validate:all": "npm run validate && npm run validate:cli"
   }

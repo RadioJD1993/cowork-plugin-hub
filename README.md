@@ -8,6 +8,8 @@ A privacy-first hub for building **Claude Cowork** plugins — a general-purpose
 
 Everything here is intentionally generic: it teaches the patterns behind production plugins without publishing private client, firm, employee, tool, or local-machine details.
 
+Browse the generated catalog in [docs/catalog.md](./docs/catalog.md), or use [docs/catalog.json](./docs/catalog.json) from tools and demos.
+
 ## Plugin Catalog
 
 | Plugin | What it does | Connectors |
@@ -36,9 +38,12 @@ claude plugin install plugin-builder@cowork-plugin-hub
 | `base/skeleton` | Copyable starter plugin with the expected folder structure. |
 | `examples/minimal` | Smallest useful plugin example. |
 | `examples/standard` | Example with a skill, command, and a remote MCP connector. |
+| `examples/hugging-face-space` | Example for calling public Hugging Face Spaces safely. |
 | `docs` | Authoring, skill, agent, connector, privacy, and Cowork-vs-CLI guidance. |
+| `docs/catalog.md` | Generated public plugin catalog. |
 | `templates` | Copy-paste starters for manifests, skills, commands, agents, and MCP config. |
 | `scripts` | Local tooling for scaffolding and repository validation. |
+| `spaces/cowork-plugin-catalog` | Ready-to-publish Hugging Face static Space for the catalog. |
 
 ## What This Is / Is Not
 
@@ -51,6 +56,7 @@ claude plugin install plugin-builder@cowork-plugin-hub
 git clone https://github.com/RadioJD1993/cowork-plugin-hub.git
 cd cowork-plugin-hub
 npm run validate
+npm run catalog
 ```
 
 Scaffold a new plugin:
@@ -93,9 +99,12 @@ Only the manifest, README, and at least one skill are required for a useful plug
 ## Documentation
 
 - [Plugin Authoring Guide](./docs/plugin-authoring-guide.md)
+- [Generated Catalog](./docs/catalog.md)
+- [GitHub Maintenance](./docs/github-maintenance.md)
 - [Skill Writing Guide](./docs/skill-writing-guide.md)
 - [Agent Patterns](./docs/subagent-patterns.md)
 - [MCP Connector Guide](./docs/mcp-connector-guide.md)
+- [Hugging Face Spaces](./docs/hugging-face-spaces.md)
 - [Cowork vs. Claude Code CLI](./docs/cowork-vs-cli.md)
 - [Privacy and Sanitization](./docs/privacy-and-sanitization.md)
 

@@ -4,6 +4,19 @@ All notable changes to this repository are documented here. The format is based
 on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 aims to follow [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- Generated public catalog outputs: `docs/catalog.md`, `docs/catalog.json`, and
+  `spaces/cowork-plugin-catalog/catalog.json`.
+- GitHub maintenance automation for label sync and release packaging.
+- Hugging Face Space guidance, a Space-backed example plugin, and a ready-to-publish
+  static catalog Space.
+
+### Changed
+- The required validation job is explicitly named `validate` so branch protection
+  can keep using a stable status check.
+
 ## [0.2.0] - 2026-06-27
 
 ### Fixed
