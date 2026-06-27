@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "server-name": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-name"],
+      "env": {
+        "API_KEY": "${YOUR_API_KEY_ENV_VAR}"
+      }
+    }
+  }
+}
