@@ -1,15 +1,15 @@
 ---
 name: skill-name
-description: When Claude should apply this skill. Be specific; vague descriptions cause the skill to fire at wrong times.
-triggers:
-  - exact phrase that should trigger this skill
-  - another trigger phrase
-  - topic keyword
+description: What this skill does and when Claude should apply it. Embed the real trigger phrases directly in this sentence, e.g. "Use when the user asks to review a contract, says 'summarize this report', or shares a document and wants the key points." Be specific; vague descriptions cause the skill to fire at the wrong times. Keep this under ~1,024 characters (the platform truncates long descriptions).
 ---
 
 # Skill Name
 
 One-paragraph description of what this skill does and the problem it solves.
+
+> Skills auto-activate from the `description` above — there is no separate
+> `triggers:` field. Write the description so it names the situations and
+> phrases that should activate the skill.
 
 ## Workflow
 

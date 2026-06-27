@@ -1,7 +1,7 @@
 ---
 name: fetch-and-summarize
 description: Fetches a file from a GitHub repository and summarizes it.
-usage: /standard-example:fetch-and-summarize [owner/repo] [path-to-file]
+argument-hint: "[owner/repo] [path-to-file]"
 ---
 
 # /standard-example:fetch-and-summarize
@@ -24,3 +24,4 @@ Fetches a file from GitHub and summarizes it using the `summarize` skill.
 
 - Requires the GitHub MCP connector to be configured.
 - For private repositories, use the minimum token scopes needed for the task.
+- If the connector is unavailable, ask the user to paste the file contents. Do not invent repository contents.

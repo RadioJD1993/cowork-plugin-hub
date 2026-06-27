@@ -10,24 +10,39 @@ skills/
     `-- SKILL.md
 ```
 
-Every `SKILL.md` has frontmatter and a Markdown body.
+Every `SKILL.md` has YAML frontmatter and a Markdown body. The spec requires
+only two fields: `name` and `description`.
 
 ```yaml
 ---
 name: your-skill-name
-description: When Claude should apply this skill.
-triggers:
-  - phrase users actually say
-  - another trigger phrase
+description: What the skill does and when Claude should apply it, with the activating phrases embedded directly here.
 ---
 ```
 
-## Triggers
+> There is **no `triggers:` field**. Older drafts of this hub used one; it is
+> not part of the spec and the validator now rejects it. Put the trigger
+> phrases inside the `description`.
 
-- Use phrases users actually type.
-- Include action forms such as "review this" and noun forms such as "document review".
-- Prefer 3 to 8 triggers.
-- Avoid broad single-word triggers unless the word is highly specific.
+## Activation Comes From The Description
+
+Claude decides when to apply a skill by matching the conversation against the
+`description`. Write it so it names the situations and the phrases users
+actually type:
+
+- Use phrases users actually say, in action form ("review this contract") and
+  noun form ("document review").
+- Name 3 to 8 representative situations or phrases.
+- Be specific. A vague description fires at the wrong times; an over-broad one
+  fires constantly.
+- Keep `description` under ~1,024 characters — the platform truncates long
+  descriptions in the skill listing, which wastes context and hurts activation.
+
+Example:
+
+```yaml
+description: Summarizes a document, article, or file the user shares. Use when the user shares content and asks for a summary, says "tldr", "give me the key points", or "what does this say".
+```
 
 ## Body Structure
 
@@ -62,7 +77,9 @@ Return:
 
 | Mistake | Fix |
 | --- | --- |
-| Vague triggers | Use realistic user phrases. |
+| A separate `triggers:` field | Delete it; embed the phrases in `description`. |
+| Vague description | Name the real situations and user phrases. |
+| Description over ~1,024 chars | Tighten it; the listing truncates long text. |
 | No output format | Specify sections or fields. |
 | Too much scope | Split into multiple skills. |
 | No edge cases | Add missing-input and out-of-scope behavior. |
@@ -72,6 +89,9 @@ Return:
 
 1. Install the plugin locally.
 2. Try natural language that should trigger the skill.
-3. Try near-miss language that should not trigger the skill.
-4. Run each edge case.
-5. Run repository validation before opening a pull request.
+3. Try near-miss language that should **not** trigger it. If it fires anyway,
+   the description is too broad.
+4. If it never fires, the description does not name the user's actual phrasing.
+5. Run each edge case.
+6. Run `npm run validate` and `claude plugin validate <plugin-path>` before
+   opening a pull request.

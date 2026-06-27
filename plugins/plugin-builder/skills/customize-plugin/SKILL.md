@@ -1,20 +1,9 @@
 ---
 name: customize-plugin
-description: >
-  Helps the user customize an existing CoWork plugin locally by adjusting
-  connectors, triggers, workflows, and output formats without committing
-  private organization context.
-triggers:
-  - customize plugin
-  - modify plugin
-  - adapt plugin
-  - update skill
-  - change connectors
-  - organization-specific
-  - our team does it differently
+description: Helps the user adapt an existing Cowork plugin locally — swapping connectors, refining a skill's description and workflow, and adjusting output formats — without committing private organization context. Use when the user says they want to customize, modify, or adapt a plugin, change its connectors, or "make it work the way our team does".
 ---
 
-# Customize CoWork Plugin
+# Customize Cowork Plugin
 
 ## When To Apply
 
@@ -32,30 +21,30 @@ Ask the user:
 Useful categories:
 
 - Connectors: swap tools or add new ones.
-- Skill triggers: too broad, too narrow, or wrong language.
+- Skill activation: the `description` is too broad, too narrow, or uses the wrong language.
 - Workflow steps: their process differs from the default.
 - Output format: different structure or terminology.
 - Local context: private terms or policies that should stay out of the shared plugin.
 
 ### Step 2: Keep Private Context Local
 
-If adding organization-specific context, collect only what is needed and put it in a `[plugin-name].local.md` template. Tell the user this file must stay local and should not be committed.
+If adding organization-specific context, collect only what is needed and put it in a `[plugin-name].local.md` file. Tell the user this file must stay local and should not be committed (the repo's `.gitignore` already excludes `*.local.md`).
 
 ### Step 3: Connector Swaps
 
 For connector changes, produce an updated `.mcp.json` with:
 
 - Removed servers they do not use.
-- Added servers they need.
-- Environment variable placeholders for secrets.
+- Added servers they need (prefer `type: http` remote servers so they work in Cowork).
+- Environment-variable placeholders for secrets.
 - Notes for `CONNECTORS.md`.
 
 ### Step 4: Skill Edits
 
 For skill modifications, produce the updated `SKILL.md` with:
 
-- Revised triggers that match the user's language.
-- Updated workflow steps that match the process.
+- A revised `description` whose embedded activation phrases match the user's language (there is no separate `triggers:` field).
+- Updated workflow steps that match their process.
 - Adjusted output format.
 - Missing-tool and missing-context behavior.
 

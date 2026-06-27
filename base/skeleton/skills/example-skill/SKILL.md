@@ -1,17 +1,15 @@
 ---
 name: example-skill
-description: >
-  A short description of when Claude should apply this skill and what outcome it produces.
-triggers:
-  - keywords or phrases that activate this skill automatically
-  - another trigger phrase
+description: A short, specific description of when Claude should apply this skill and what outcome it produces. Embed the situations and phrases that should activate it, e.g. "Use when the user shares meeting notes and asks for action items, says 'what are my follow-ups', or wants decisions extracted from a discussion."
 ---
 
 # Example Skill
 
 ## When to Apply
 
-Describe the situations where Claude should draw on this skill. Be specific about the trigger conditions.
+The `description` above is what activates this skill — there is no separate
+`triggers:` field. Make the description name the exact situations and phrases
+that should fire it, and be specific so it does not trigger at the wrong times.
 
 ## What to Do
 

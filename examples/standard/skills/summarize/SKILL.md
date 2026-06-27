@@ -1,17 +1,14 @@
 ---
 name: summarize
-description: Summarizes any document, article, or file shared in the conversation. Fires when the user shares content and asks for a summary.
-triggers:
-  - summarize this
-  - summary of this
-  - tldr
-  - give me the key points
-  - what does this say
+description: Summarizes any document, article, or file shared in the conversation. Use when the user shares content and asks for a summary, says "tldr", "summarize this", "give me the key points", or "what does this say".
 ---
 
 # Summarize Skill
 
 When this skill fires, produce a structured summary of the shared content.
+
+> Activation comes from the `description` above — the trigger phrases are
+> embedded there, not in a separate `triggers:` field.
 
 ## Workflow
 

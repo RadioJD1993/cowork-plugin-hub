@@ -39,6 +39,10 @@ const textBasenames = new Set([
   "README.md"
 ]);
 
+const KEBAB = /^[a-z0-9][a-z0-9-]*$/;
+const SEMVER = /^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/;
+const EXTERNAL_SOURCE_KINDS = new Set(["npm", "url", "github", "git-subdir"]);
+
 const privacyPatterns = [
   {
     label: "email address",
@@ -174,6 +178,15 @@ function scanPrivacy() {
   }
 }
 
+// Returns the repo-relative directory for a local string source (e.g. "./plugins/x" -> "plugins/x"),
+// or null when the source is an external object (npm/url/github/git-subdir).
+function localSourceDir(source) {
+  if (typeof source === "string") {
+    return source.replace(/^\.\//, "").replace(/\/+$/, "");
+  }
+  return null;
+}
+
 function validateMarketplace() {
   const marketplacePath = ".claude-plugin/marketplace.json";
   if (!exists(marketplacePath)) {
@@ -186,18 +199,33 @@ function validateMarketplace() {
     return new Set();
   }
 
+  // Root required fields per the Claude Code marketplace schema.
+  if (!marketplace.name) {
+    errors.push(`${marketplacePath}: missing root "name"`);
+  } else if (!KEBAB.test(marketplace.name)) {
+    errors.push(`${marketplacePath}: marketplace "name" must be kebab-case (got "${marketplace.name}")`);
+  }
+
+  if (!marketplace.owner || !marketplace.owner.name) {
+    errors.push(`${marketplacePath}: missing required "owner.name"`);
+  }
+
   if (!Array.isArray(marketplace.plugins)) {
-    errors.push(`${marketplacePath}: plugins must be an array`);
+    errors.push(`${marketplacePath}: "plugins" must be an array`);
     return new Set();
   }
 
-  const listedPaths = new Set();
+  const listedDirs = new Set();
   const names = new Set();
 
   for (const plugin of marketplace.plugins) {
-    if (!plugin.name || !plugin.path || !plugin.description) {
-      errors.push(`${marketplacePath}: each plugin needs name, path, and description`);
+    if (!plugin.name || !plugin.source || !plugin.description) {
+      errors.push(`${marketplacePath}: each plugin entry needs "name", "source", and "description"`);
       continue;
+    }
+
+    if (!KEBAB.test(plugin.name)) {
+      errors.push(`${marketplacePath}: plugin "name" must be kebab-case (got "${plugin.name}")`);
     }
 
     if (names.has(plugin.name)) {
@@ -205,19 +233,37 @@ function validateMarketplace() {
     }
     names.add(plugin.name);
 
-    listedPaths.add(plugin.path);
-
-    if (!isDirectory(plugin.path)) {
-      errors.push(`${marketplacePath}: listed path does not exist: ${plugin.path}`);
-      continue;
+    const desc = String(plugin.description);
+    if (desc.length < 10 || desc.length > 2000) {
+      errors.push(`${marketplacePath}: "${plugin.name}" description must be 10-2000 characters`);
     }
 
-    if (!exists(path.posix.join(plugin.path, ".claude-plugin/plugin.json"))) {
-      errors.push(`${marketplacePath}: listed plugin is missing .claude-plugin/plugin.json: ${plugin.path}`);
+    if (typeof plugin.source === "string") {
+      if (!plugin.source.startsWith("./")) {
+        errors.push(`${marketplacePath}: "${plugin.name}" local source must start with "./" (got "${plugin.source}")`);
+        continue;
+      }
+      const dir = localSourceDir(plugin.source);
+      listedDirs.add(dir);
+
+      if (!isDirectory(dir)) {
+        errors.push(`${marketplacePath}: "${plugin.name}" source directory does not exist: ${dir}`);
+        continue;
+      }
+      // strict:false entries are skills-only and may omit plugin.json.
+      if (plugin.strict !== false && !exists(path.posix.join(dir, ".claude-plugin/plugin.json"))) {
+        errors.push(`${marketplacePath}: "${plugin.name}" source is missing .claude-plugin/plugin.json: ${dir}`);
+      }
+    } else if (plugin.source && typeof plugin.source === "object") {
+      if (!EXTERNAL_SOURCE_KINDS.has(plugin.source.source)) {
+        errors.push(`${marketplacePath}: "${plugin.name}" object source must set "source" to one of: ${[...EXTERNAL_SOURCE_KINDS].join(", ")}`);
+      }
+    } else {
+      errors.push(`${marketplacePath}: "${plugin.name}" has an invalid "source"`);
     }
   }
 
-  return listedPaths;
+  return listedDirs;
 }
 
 function immediatePluginDirs(parentDir) {
@@ -237,7 +283,7 @@ function frontmatter(text) {
   return match ? match[1] : null;
 }
 
-function requireFrontmatterKeys(relativePath, keys) {
+function requireFrontmatterKeys(relativePath, keys, forbidden = []) {
   const text = fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
   const block = frontmatter(text);
   if (!block) {
@@ -251,30 +297,38 @@ function requireFrontmatterKeys(relativePath, keys) {
       errors.push(`${relativePath}: missing frontmatter key "${key}"`);
     }
   }
+
+  for (const key of forbidden) {
+    const regex = new RegExp(`^${key}\\s*:`, "m");
+    if (regex.test(block)) {
+      errors.push(`${relativePath}: frontmatter key "${key}" is not part of the spec; remove it (see docs/skill-writing-guide.md)`);
+    }
+  }
 }
 
-function validatePlugin(relativeDir, listedPaths) {
+function validatePlugin(relativeDir, listedDirs) {
   const manifestPath = path.posix.join(relativeDir, ".claude-plugin/plugin.json");
   const manifest = readJson(manifestPath);
   if (!manifest) {
     return;
   }
 
+  // Only "name" is required by the spec; the hub additionally requires these for a quality, publishable plugin.
   for (const field of ["name", "version", "description", "author"]) {
     if (!manifest[field]) {
       errors.push(`${manifestPath}: missing "${field}"`);
     }
   }
 
-  if (manifest.name && !/^[a-z0-9][a-z0-9-]*$/.test(manifest.name)) {
+  if (manifest.name && !KEBAB.test(manifest.name)) {
     errors.push(`${manifestPath}: name must be kebab-case`);
   }
 
-  if (manifest.version && !/^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(manifest.version)) {
+  if (manifest.version && !SEMVER.test(manifest.version)) {
     errors.push(`${manifestPath}: version should look like semantic versioning`);
   }
 
-  if (!manifest.author?.name) {
+  if (manifest.author && !manifest.author.name) {
     errors.push(`${manifestPath}: missing author.name`);
   }
 
@@ -287,6 +341,18 @@ function validatePlugin(relativeDir, listedPaths) {
     errors.push(`${relativeDir}: missing README.md`);
   }
 
+  // Component directories must not be nested inside .claude-plugin/.
+  for (const comp of ["skills", "commands", "agents", "hooks"]) {
+    if (isDirectory(path.posix.join(relativeDir, ".claude-plugin", comp))) {
+      errors.push(`${relativeDir}: "${comp}/" must live at the plugin root, not inside .claude-plugin/`);
+    }
+  }
+
+  // A common mistake: agents placed in a "subagents/" directory are never discovered.
+  if (isDirectory(path.posix.join(relativeDir, "subagents"))) {
+    errors.push(`${relativeDir}: rename "subagents/" to "agents/" so agents are auto-discovered`);
+  }
+
   const skillsDir = path.join(repoRoot, relativeDir, "skills");
   const skillFiles = fs.existsSync(skillsDir)
     ? walk(skillsDir).filter((file) => path.basename(file) === "SKILL.md").map(rel)
@@ -297,7 +363,7 @@ function validatePlugin(relativeDir, listedPaths) {
   }
 
   for (const skillFile of skillFiles) {
-    requireFrontmatterKeys(skillFile, ["name", "description", "triggers"]);
+    requireFrontmatterKeys(skillFile, ["name", "description"], ["triggers"]);
   }
 
   const commandsDir = path.join(repoRoot, relativeDir, "commands");
@@ -306,16 +372,25 @@ function validatePlugin(relativeDir, listedPaths) {
     : [];
 
   for (const commandFile of commandFiles) {
-    requireFrontmatterKeys(commandFile, ["name", "description", "usage"]);
+    requireFrontmatterKeys(commandFile, ["name", "description"], ["usage"]);
   }
 
-  if (relativeDir.startsWith("plugins/") && !listedPaths.has(relativeDir)) {
+  const agentsDir = path.join(repoRoot, relativeDir, "agents");
+  const agentFiles = fs.existsSync(agentsDir)
+    ? walk(agentsDir).filter((file) => path.extname(file) === ".md").map(rel)
+    : [];
+
+  for (const agentFile of agentFiles) {
+    requireFrontmatterKeys(agentFile, ["name", "description"]);
+  }
+
+  if (relativeDir.startsWith("plugins/") && !listedDirs.has(relativeDir)) {
     warnings.push(`${relativeDir}: installable plugin is not listed in .claude-plugin/marketplace.json`);
   }
 }
 
 function main() {
-  const listedPaths = validateMarketplace();
+  const listedDirs = validateMarketplace();
   const pluginDirs = [
     ...immediatePluginDirs("plugins"),
     ...immediatePluginDirs("examples"),
@@ -323,7 +398,7 @@ function main() {
   ];
 
   for (const pluginDir of pluginDirs) {
-    validatePlugin(pluginDir, listedPaths);
+    validatePlugin(pluginDir, listedDirs);
   }
 
   scanPrivacy();

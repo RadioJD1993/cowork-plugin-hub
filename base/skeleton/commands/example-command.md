@@ -1,7 +1,7 @@
 ---
 name: example-command
 description: What this slash command does when explicitly invoked.
-usage: /plugin-name:example-command [optional-argument]
+argument-hint: "[optional-argument]"
 ---
 
 # Example Command

@@ -1,12 +1,15 @@
 ---
 name: command-name
 description: What this command does in one clear sentence.
-usage: /plugin-name:command-name [required-arg] [optional-arg?]
+argument-hint: "[required-arg] [optional-arg]"
 ---
 
 # /plugin-name:command-name
 
 One-paragraph description of what this command does.
+
+> Commands need only `name` and `description` in frontmatter. `argument-hint`
+> is optional and powers autocomplete. There is no `usage:` field.
 
 ## How To Use
 

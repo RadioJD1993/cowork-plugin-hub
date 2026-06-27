@@ -48,8 +48,8 @@ plugin-name/
 |   `-- example-command.md
 |-- skills/
 |   `-- example-skill/SKILL.md
-|-- subagents/
-|   `-- example-subagent.md
+|-- agents/
+|   `-- example-agent.md
 |-- hooks/
 |   `-- hooks.json
 |-- schemas/

@@ -1,6 +1,6 @@
 # Minimal Plugin Example
 
-The smallest useful CoWork plugin: a single skill, no commands, no subagents, and no MCP connectors.
+The smallest useful CoWork plugin: a single skill, no commands, no agents, and no MCP connectors.
 
 Use this as a starting point when you want to test one skill idea before building a full plugin.
 
@@ -18,5 +18,5 @@ minimal/
 ## What It Demonstrates
 
 - Minimum required files for a useful plugin: `plugin.json` and one `SKILL.md`
-- Correct frontmatter format for a skill
+- Correct skill frontmatter (`name` + `description`, with triggers embedded in the description)
 - Simple, single-step workflow

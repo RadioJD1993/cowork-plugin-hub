@@ -9,9 +9,26 @@ on:
       - "codex/**"
 
 jobs:
-  validate:
+  hub-validate:
+    name: Hub validator (schema + privacy)
     runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Run hub validation
+        run: npm run validate
+
+  cli-validate:
+    name: Canonical claude plugin validate
+    runs-on: ubuntu-latest
+    continue-on-error: true # canonical check is advisory until the CLI is pinned; hub-validate is the gate
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -21,5 +38,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Run validation
-        run: npm run validate
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate marketplace manifest
+        run: claude plugin validate .claude-plugin/marketplace.json
+
+      - name: Validate plugin-builder (strict)
+        run: claude plugin validate ./plugins/plugin-builder --strict

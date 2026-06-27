@@ -1,11 +1,10 @@
 {
   "mcpServers": {
-    "server-name": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-name"],
-      "env": {
-        "API_KEY": "${YOUR_API_KEY_ENV_VAR}"
+    "example-remote": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${EXAMPLE_API_TOKEN}"
       }
     }
   }

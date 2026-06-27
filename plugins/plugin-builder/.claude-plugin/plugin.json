@@ -1,8 +1,12 @@
 {
   "name": "plugin-builder",
-  "version": "0.1.0",
-  "description": "A meta-plugin for building other CoWork plugins. Guided workflow for creating, customizing, and validating plugins.",
+  "version": "0.2.0",
+  "description": "A meta-plugin for building other Cowork plugins. Guides you through creating, customizing, and validating spec-compliant, privacy-safe plugins.",
   "author": {
-    "name": "CoWork Plugin Hub contributors"
-  }
+    "name": "RadioJD1993"
+  },
+  "homepage": "https://github.com/RadioJD1993/cowork-plugin-hub",
+  "repository": "https://github.com/RadioJD1993/cowork-plugin-hub",
+  "license": "Apache-2.0",
+  "keywords": ["meta", "builder", "scaffolding", "validation", "cowork"]
 }

@@ -13,6 +13,12 @@ read -p "Plugin name (kebab-case, e.g. legal-intake): " PLUGIN_NAME
 read -p "Short description (one sentence): " PLUGIN_DESC
 read -p "Public author name (avoid private org/client info): " AUTHOR_NAME
 
+# Enforce kebab-case so the plugin name is a valid component namespace.
+if ! echo "$PLUGIN_NAME" | grep -Eq '^[a-z0-9][a-z0-9-]*$'; then
+  echo "Error: plugin name must be kebab-case (lowercase letters, digits, hyphens). Got: $PLUGIN_NAME"
+  exit 1
+fi
+
 DEST="plugins/$PLUGIN_NAME"
 
 if [ -d "$DEST" ]; then
@@ -26,7 +32,7 @@ echo "Scaffolding $DEST ..."
 mkdir -p "$DEST/.claude-plugin"
 mkdir -p "$DEST/skills/example-skill"
 mkdir -p "$DEST/commands"
-mkdir -p "$DEST/subagents"
+mkdir -p "$DEST/agents"
 mkdir -p "$DEST/hooks"
 mkdir -p "$DEST/schemas"
 mkdir -p "$DEST/scripts"
@@ -47,7 +53,7 @@ EOF
 cp base/skeleton/.mcp.json "$DEST/.mcp.json"
 cp base/skeleton/skills/example-skill/SKILL.md "$DEST/skills/example-skill/SKILL.md"
 cp base/skeleton/commands/example-command.md "$DEST/commands/example-command.md"
-cp base/skeleton/subagents/example-subagent.md "$DEST/subagents/example-subagent.md"
+cp base/skeleton/agents/example-agent.md "$DEST/agents/example-agent.md"
 cp base/skeleton/hooks/hooks.json "$DEST/hooks/hooks.json"
 cp base/skeleton/schemas/example-output.schema.json "$DEST/schemas/example-output.schema.json"
 cp base/skeleton/scripts/README.md "$DEST/scripts/README.md"
@@ -63,7 +69,7 @@ $PLUGIN_DESC
 ## Installation
 
 \`\`\`bash
-claude plugins add cowork-plugin-hub/$PLUGIN_NAME
+claude plugin install $PLUGIN_NAME@cowork-plugin-hub
 \`\`\`
 
 ## Commands
@@ -84,7 +90,9 @@ echo "Done! Plugin scaffolded at: $DEST"
 echo ""
 echo "Next steps:"
 echo "  1. Edit $DEST/.claude-plugin/plugin.json"
-echo "  2. Replace example-skill with your domain skills"
-echo "  3. Configure $DEST/.mcp.json with your connectors"
-echo "  4. Run: npm run validate"
-echo "  5. Run: claude plugin validate $DEST"
+echo "  2. Replace example-skill with your domain skills (frontmatter: name + description)"
+echo "  3. Remove the example command/agent folders you do not use"
+echo "  4. Configure $DEST/.mcp.json with your connectors (remote http for Cowork)"
+echo "  5. Add an entry to .claude-plugin/marketplace.json using \"source\": \"./$DEST\""
+echo "  6. Run: npm run validate"
+echo "  7. Run: claude plugin validate $DEST"
