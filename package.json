@@ -1,0 +1,38 @@
+{
+  "name": "cowork-plugin-hub",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "A privacy-first hub for building Claude Cowork plugins: a general plugin builder, templates, docs, validation, and a vetted plugin catalog.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/RadioJD1993/cowork-plugin-hub#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RadioJD1993/cowork-plugin-hub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RadioJD1993/cowork-plugin-hub/issues"
+  },
+  "keywords": [
+    "claude",
+    "cowork",
+    "claude-code",
+    "plugin",
+    "marketplace",
+    "skills",
+    "mcp"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "validate": "node scripts/validate-hub.mjs",
+    "catalog": "node scripts/generate-catalog.mjs",
+    "catalog:check": "node scripts/generate-catalog.mjs --check",
+    "labels:check": "node scripts/sync-labels.mjs --dry-run",
+    "labels:sync": "node scripts/sync-labels.mjs",
+    "package:release": "node scripts/package-release.mjs",
+    "validate:cli": "claude plugin validate .claude-plugin/marketplace.json",
+    "validate:all": "npm run validate && npm run validate:cli"
+  }
+}

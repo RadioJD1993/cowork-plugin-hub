@@ -1,0 +1,139 @@
+# CoWork Plugin Hub
+
+[![Validate](https://github.com/RadioJD1993/cowork-plugin-hub/actions/workflows/validate.yml/badge.svg)](https://github.com/RadioJD1993/cowork-plugin-hub/actions/workflows/validate.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](#requirements)
+
+A privacy-first hub for building **Claude Cowork** plugins — a general-purpose plugin builder plus a catalog of vetted, installable plugins. Build skills, slash commands, agents, and MCP connectors from a shared base, and ship plugins that are spec-compliant and safe to publish.
+
+Everything here is intentionally generic: it teaches the patterns behind production plugins without publishing private client, firm, employee, tool, or local-machine details.
+
+Browse the generated catalog in [docs/catalog.md](./docs/catalog.md), or use [docs/catalog.json](./docs/catalog.json) from tools and demos.
+
+## Plugin Catalog
+
+| Plugin | What it does | Connectors |
+| --- | --- | --- |
+| **[plugin-builder](./plugins/plugin-builder)** | Guided, validated workflow to create, customize, and validate Cowork plugins. | None |
+
+> Domain plugins (legal, engineering, etc.) are developed on `feat/<domain>` branches and merged into this catalog once they pass the privacy checklist and the validator.
+
+## Install
+
+**In Cowork:** Customize → Plugins → Add marketplace → paste
+`https://github.com/RadioJD1993/cowork-plugin-hub`, then install a plugin from the list.
+
+**In the Claude Code CLI:**
+
+```bash
+claude plugin marketplace add RadioJD1993/cowork-plugin-hub
+claude plugin install plugin-builder@cowork-plugin-hub
+```
+
+## What Is Here
+
+| Path | Purpose |
+| --- | --- |
+| `plugins/plugin-builder` | Installable meta-plugin for planning, scaffolding, and validating new plugins. |
+| `base/skeleton` | Copyable starter plugin with the expected folder structure. |
+| `examples/minimal` | Smallest useful plugin example. |
+| `examples/standard` | Example with a skill, command, and a remote MCP connector. |
+| `examples/hugging-face-space` | Example for calling public Hugging Face Spaces safely. |
+| `docs` | Authoring, skill, agent, connector, privacy, and Cowork-vs-CLI guidance. |
+| `docs/catalog.md` | Generated public plugin catalog. |
+| `templates` | Copy-paste starters for manifests, skills, commands, agents, and MCP config. |
+| `scripts` | Local tooling for scaffolding and repository validation. |
+| `spaces/cowork-plugin-catalog` | Ready-to-publish Hugging Face static Space for the catalog. |
+
+## What This Is / Is Not
+
+- **Is:** a public starter hub, a spec-compliant plugin builder, and a vetted marketplace you can install from.
+- **Is not:** a package manager, a place for private/organization-specific plugins, or a dumping ground for generated bundles. Keep private adaptations in local, git-ignored files.
+
+## Quick Start (for contributors)
+
+```bash
+git clone https://github.com/RadioJD1993/cowork-plugin-hub.git
+cd cowork-plugin-hub
+npm run validate
+npm run catalog
+```
+
+Scaffold a new plugin:
+
+```bash
+bash scripts/new-plugin.sh
+```
+
+Then edit the new folder under `plugins/`, list it in `.claude-plugin/marketplace.json` with a `source` path, run validation, and open a pull request.
+
+## Plugin Anatomy
+
+Production plugins in this hub follow this shape:
+
+```text
+plugin-name/
+|-- .claude-plugin/
+|   `-- plugin.json
+|-- .mcp.json
+|-- README.md
+|-- CONNECTORS.md
+|-- commands/
+|   `-- command-name.md
+|-- skills/
+|   `-- skill-name/
+|       `-- SKILL.md
+|-- agents/
+|   `-- agent-name.md
+|-- hooks/
+|   `-- hooks.json
+|-- schemas/
+|   `-- output.schema.json
+|-- scripts/
+|   `-- helper-script.py
+`-- state_config.json
+```
+
+Only the manifest, README, and at least one skill are required for a useful plugin. Commands, agents, connectors, hooks, schemas, scripts, and state config are optional. Agents must live in `agents/` (not `subagents/`) to be discovered, and Cowork uses remote MCP connectors only — see [docs/cowork-vs-cli.md](./docs/cowork-vs-cli.md).
+
+## Documentation
+
+- [Plugin Authoring Guide](./docs/plugin-authoring-guide.md)
+- [Generated Catalog](./docs/catalog.md)
+- [GitHub Maintenance](./docs/github-maintenance.md)
+- [Skill Writing Guide](./docs/skill-writing-guide.md)
+- [Agent Patterns](./docs/subagent-patterns.md)
+- [MCP Connector Guide](./docs/mcp-connector-guide.md)
+- [Hugging Face Spaces](./docs/hugging-face-spaces.md)
+- [Cowork vs. Claude Code CLI](./docs/cowork-vs-cli.md)
+- [Privacy and Sanitization](./docs/privacy-and-sanitization.md)
+
+## Safety Rules
+
+- Do not commit private plugin bundles (`*.plugin`), local settings, credentials, transcripts, client files, or organization-specific playbooks.
+- Keep secrets in environment variables, never in `.mcp.json`.
+- Keep custom privacy terms in an untracked `privacy.denylist` file.
+- Run `npm run validate` before committing.
+- Review `.claude-plugin/marketplace.json` whenever plugin sources change.
+
+See [Privacy and Sanitization](./docs/privacy-and-sanitization.md) for the full checklist, and [SECURITY.md](./SECURITY.md) if you find a leaked secret or vulnerability.
+
+## Branch Strategy
+
+| Branch | Purpose |
+| --- | --- |
+| `main` | Stable public hub: docs, templates, validation, and the vetted catalog. |
+| `feat/<domain>` | Work-in-progress domain plugins. Keep unlisted until privacy-reviewed, then merge the folder into `plugins/` and add it to the catalog. |
+| `codex/*` | Review branches created by automation or assisted editing. |
+
+## Requirements
+
+Node.js >= 18 for the local validator and scaffolder. The Claude Code CLI is required for `claude plugin validate` and CLI installs.
+
+## Contributing
+
+Start with [CONTRIBUTING.md](./CONTRIBUTING.md), then read the [Plugin Authoring Guide](./docs/plugin-authoring-guide.md). Please follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+## License
+
+Apache-2.0. See [LICENSE](./LICENSE).

@@ -1,0 +1,34 @@
+{
+  "name": "cowork-plugin-hub",
+  "description": "A privacy-first public hub for Claude CoWork plugin templates, docs, validation, and vetted installable plugins.",
+  "version": "0.2.0",
+  "source": "https://github.com/RadioJD1993/cowork-plugin-hub",
+  "generatedFrom": ".claude-plugin/marketplace.json",
+  "plugins": [
+    {
+      "name": "plugin-builder",
+      "version": "0.2.0",
+      "category": "development",
+      "description": "A meta-plugin for planning, scaffolding, customizing, and validating Cowork plugins. Guides you from an idea to an installable, spec-compliant plugin and checks it for privacy and structural issues before you ship.",
+      "source": "./plugins/plugin-builder",
+      "homepage": "https://github.com/RadioJD1993/cowork-plugin-hub/tree/main/plugins/plugin-builder",
+      "install": "claude plugin install plugin-builder@cowork-plugin-hub",
+      "keywords": [
+        "meta",
+        "builder",
+        "scaffolding",
+        "validation",
+        "cowork"
+      ],
+      "components": {
+        "skills": 2,
+        "commands": 2,
+        "agents": 2,
+        "hooks": false,
+        "schemas": 0,
+        "scripts": 0
+      },
+      "componentSummary": "2 skills, 2 commands, 2 agents"
+    }
+  ]
+}

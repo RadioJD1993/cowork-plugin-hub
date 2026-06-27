@@ -1,0 +1,50 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "feat/**"
+      - "codex/**"
+
+jobs:
+  hub-validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run hub validation
+        run: npm run validate
+
+      - name: Check generated catalog
+        run: npm run catalog:check
+
+  cli-validate:
+    name: claude plugin validate (advisory)
+    runs-on: ubuntu-latest
+    continue-on-error: true # canonical check is advisory until the CLI is pinned; hub-validate is the gate
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate marketplace manifest
+        run: claude plugin validate .claude-plugin/marketplace.json
+
+      - name: Validate plugin-builder (strict)
+        run: claude plugin validate ./plugins/plugin-builder --strict

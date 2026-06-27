@@ -1,0 +1,8 @@
+{
+  "name": "hugging-face-space-example",
+  "version": "0.1.0",
+  "description": "Example plugin for using public Hugging Face Spaces from Cowork through agents.md instructions or an optional remote MCP endpoint.",
+  "author": {
+    "name": "CoWork Plugin Hub"
+  }
+}

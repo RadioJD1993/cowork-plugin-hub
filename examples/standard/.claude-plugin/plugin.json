@@ -1,0 +1,8 @@
+{
+  "name": "standard-example",
+  "version": "0.1.0",
+  "description": "Standard example plugin demonstrating a skill, command, and a remote GitHub MCP connector.",
+  "author": {
+    "name": "CoWork Plugin Hub contributors"
+  }
+}

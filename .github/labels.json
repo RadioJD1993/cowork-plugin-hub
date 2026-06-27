@@ -1,0 +1,42 @@
+[
+  {
+    "name": "plugin",
+    "color": "2da44e",
+    "description": "New or changed installable plugin content."
+  },
+  {
+    "name": "privacy-review",
+    "color": "bf3989",
+    "description": "Needs sanitization review before public release."
+  },
+  {
+    "name": "docs",
+    "color": "0969da",
+    "description": "Documentation, guides, templates, or catalog updates."
+  },
+  {
+    "name": "good-first-plugin",
+    "color": "54aeef",
+    "description": "Small plugin idea suitable for a first contribution."
+  },
+  {
+    "name": "connector",
+    "color": "fbca04",
+    "description": "MCP connector, external service, or remote integration work."
+  },
+  {
+    "name": "automation",
+    "color": "a371f7",
+    "description": "Validation, release, catalog, or repository automation."
+  },
+  {
+    "name": "hugging-face",
+    "color": "f9d949",
+    "description": "Hugging Face Space, Hub, or agent-tool integration."
+  },
+  {
+    "name": "release",
+    "color": "0e8a16",
+    "description": "Versioning, packaging, changelog, or release workflow."
+  }
+]
