@@ -21,4 +21,4 @@ This is the simplest possible CoWork skill. When this skill fires, greet the use
 
 ## Output Format
 
-A short, friendly message — 3–5 sentences. No headers, no tables. Conversational tone.
+A short, friendly message, 3 to 5 sentences. No headers, no tables. Conversational tone.

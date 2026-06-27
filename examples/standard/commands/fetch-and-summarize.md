@@ -8,10 +8,10 @@ usage: /standard-example:fetch-and-summarize [owner/repo] [path-to-file]
 
 Fetches a file from GitHub and summarizes it using the `summarize` skill.
 
-## How to Use
+## How To Use
 
-```
-/standard-example:fetch-and-summarize RadioJD1993/cowork-plugin-hub README.md
+```text
+/standard-example:fetch-and-summarize owner/repo README.md
 ```
 
 ## Steps
@@ -23,4 +23,4 @@ Fetches a file from GitHub and summarizes it using the `summarize` skill.
 ## Notes
 
 - Requires the GitHub MCP connector to be configured.
-- For private repos, ensure your `GITHUB_TOKEN` has `repo` scope.
+- For private repositories, use the minimum token scopes needed for the task.

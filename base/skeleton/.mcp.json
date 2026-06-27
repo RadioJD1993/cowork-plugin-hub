@@ -1,14 +1,3 @@
 {
-  "mcpServers": {
-    // Add your MCP server connections here.
-    // Example:
-    // "slack": {
-    //   "type": "http",
-    //   "url": "https://mcp.slack.com/mcp",
-    //   "oauth": {
-    //     "clientId": "YOUR_CLIENT_ID",
-    //     "callbackPort": 3118
-    //   }
-    // }
-  }
+  "mcpServers": {}
 }

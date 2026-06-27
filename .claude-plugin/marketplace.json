@@ -1,24 +1,12 @@
 {
   "name": "CoWork Plugin Hub",
-  "description": "A full-stack plugin development hub for Claude CoWork. Agents, subagents, skills, commands, and MCP connectors — from a shared base to domain-specific plugins.",
+  "description": "A privacy-first public hub for Claude CoWork plugin templates, docs, validation, and vetted installable plugins.",
   "plugins": [
-    {
-      "name": "legal",
-      "path": "plugins/legal",
-      "description": "Contract review, NDA triage, compliance, risk assessment, and legal workflow automation for law firms and in-house teams.",
-      "tags": ["legal", "contracts", "compliance", "nda"]
-    },
-    {
-      "name": "engineering",
-      "path": "plugins/engineering",
-      "description": "Code review, architecture analysis, incident response, deploy checklists, and engineering workflow automation.",
-      "tags": ["engineering", "code-review", "devops", "architecture"]
-    },
     {
       "name": "plugin-builder",
       "path": "plugins/plugin-builder",
-      "description": "A meta-plugin for building other plugins. Guided workflow for creating, customizing, and validating CoWork plugins.",
-      "tags": ["meta", "builder", "scaffolding"]
+      "description": "A meta-plugin for planning, scaffolding, customizing, and validating CoWork plugins.",
+      "tags": ["meta", "builder", "scaffolding", "validation"]
     }
   ]
 }

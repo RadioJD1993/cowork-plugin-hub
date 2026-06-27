@@ -1,19 +1,20 @@
 # Base Plugin Foundation
 
-Shared utilities, patterns, and skeleton files that every plugin in this hub builds on. Start here before writing any domain-specific plugin.
+The base folder holds the reusable starting point for new public plugins.
 
-## What's in the Base
+## Contents
 
-| File/Dir | Purpose |
-|----------|---------|
-| `skeleton/` | Minimal working plugin you can copy and rename |
-| `shared-skills/` | Skills that are useful across all domains (e.g., meeting-briefing, daily-brief) |
-| `shared-commands/` | Commands that apply everywhere (e.g., `/help`, `/status`) |
+| Path | Purpose |
+| --- | --- |
+| `skeleton/` | Minimal working plugin you can copy and rename. |
 
-## How to Use
+## How To Use
 
-1. Copy `skeleton/` to `plugins/your-plugin-name/`
-2. Edit `.claude-plugin/plugin.json` with your plugin's name, version, and description
-3. Replace placeholder skills with your domain-specific skills
-4. Configure `.mcp.json` with your connectors
-5. Run `claude plugin validate .` from your plugin directory
+1. Copy `skeleton/` to `plugins/your-plugin-name/`.
+2. Edit `.claude-plugin/plugin.json`.
+3. Replace the example skill with your real workflow.
+4. Configure `.mcp.json` only if the plugin needs external tools.
+5. Remove optional folders you do not use.
+6. Run `npm run validate`.
+
+Keep private organization guidance in local files, not in the public plugin.

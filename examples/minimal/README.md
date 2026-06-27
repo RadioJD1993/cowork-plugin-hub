@@ -1,22 +1,22 @@
 # Minimal Plugin Example
 
-The smallest possible valid CoWork plugin — a single skill, no commands, no subagents, no MCP connectors.
+The smallest useful CoWork plugin: a single skill, no commands, no subagents, and no MCP connectors.
 
-Use this as a starting point when you want to test a single skill idea before building a full plugin.
+Use this as a starting point when you want to test one skill idea before building a full plugin.
 
 ## Structure
 
-```
+```text
 minimal/
-├── .claude-plugin/
-│   └── plugin.json
-└── skills/
-    └── hello-world/
-        └── SKILL.md
+|-- .claude-plugin/
+|   `-- plugin.json
+`-- skills/
+    `-- hello-world/
+        `-- SKILL.md
 ```
 
 ## What It Demonstrates
 
-- Minimum required files for a valid plugin (`plugin.json` + one `SKILL.md`)
+- Minimum required files for a useful plugin: `plugin.json` and one `SKILL.md`
 - Correct frontmatter format for a skill
 - Simple, single-step workflow

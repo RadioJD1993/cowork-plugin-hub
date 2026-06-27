@@ -11,7 +11,7 @@ echo ""
 
 read -p "Plugin name (kebab-case, e.g. legal-intake): " PLUGIN_NAME
 read -p "Short description (one sentence): " PLUGIN_DESC
-read -p "Author name: " AUTHOR_NAME
+read -p "Public author name (avoid private org/client info): " AUTHOR_NAME
 
 DEST="plugins/$PLUGIN_NAME"
 
@@ -27,6 +27,9 @@ mkdir -p "$DEST/.claude-plugin"
 mkdir -p "$DEST/skills/example-skill"
 mkdir -p "$DEST/commands"
 mkdir -p "$DEST/subagents"
+mkdir -p "$DEST/hooks"
+mkdir -p "$DEST/schemas"
+mkdir -p "$DEST/scripts"
 
 # plugin.json
 cat > "$DEST/.claude-plugin/plugin.json" <<EOF
@@ -45,6 +48,10 @@ cp base/skeleton/.mcp.json "$DEST/.mcp.json"
 cp base/skeleton/skills/example-skill/SKILL.md "$DEST/skills/example-skill/SKILL.md"
 cp base/skeleton/commands/example-command.md "$DEST/commands/example-command.md"
 cp base/skeleton/subagents/example-subagent.md "$DEST/subagents/example-subagent.md"
+cp base/skeleton/hooks/hooks.json "$DEST/hooks/hooks.json"
+cp base/skeleton/schemas/example-output.schema.json "$DEST/schemas/example-output.schema.json"
+cp base/skeleton/scripts/README.md "$DEST/scripts/README.md"
+cp base/skeleton/state_config.json "$DEST/state_config.json"
 cp base/skeleton/CONNECTORS.md "$DEST/CONNECTORS.md"
 
 # README
@@ -79,4 +86,5 @@ echo "Next steps:"
 echo "  1. Edit $DEST/.claude-plugin/plugin.json"
 echo "  2. Replace example-skill with your domain skills"
 echo "  3. Configure $DEST/.mcp.json with your connectors"
-echo "  4. Run: claude plugin validate $DEST"
+echo "  4. Run: npm run validate"
+echo "  5. Run: claude plugin validate $DEST"

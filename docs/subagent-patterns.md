@@ -1,67 +1,48 @@
 # Subagent Patterns
 
-How to design effective subagents in CoWork plugins.
+Use a subagent when a parent skill or command needs a focused helper with a narrow task, fresh context, or limited tool permissions.
 
-## When to Use a Subagent
+Do not use subagents just to split long instructions. If the work is one workflow, keep it in one skill.
 
-Use a subagent when a skill or command needs to delegate a focused, self-contained task that:
-- Has a clear input/output contract
-- Benefits from a fresh context window
-- Can run in parallel with other subagents
-- Needs strict tool permissions (limited toolsAllowed)
+## Good Uses
 
-Do NOT use a subagent just to break up long instructions — that's what skill sections are for.
+| Pattern | Use it for |
+| --- | --- |
+| Research helper | Searching or collecting documents before the parent synthesizes. |
+| Classifier | Returning a narrow label with rationale and confidence. |
+| Draft helper | Producing an initial structured draft for parent review. |
+| Validator | Checking output against a schema or checklist. |
 
-## Patterns
-
-### Pattern 1: Research Subagent
-Delegate document lookup, search, or data gathering to a subagent, then pass structured results back to the parent.
-
-```markdown
----
-name: document-lookup
-scope: Find and summarize a specific document from connected storage
-toolsAllowed:
-  - box_search
-  - egnyte_search
-  - read_file
----
-```
-
-### Pattern 2: Draft Subagent
-Delegate initial drafting to a subagent, then have the parent skill refine and finalize.
-
-```markdown
----
-name: contract-drafter
-scope: Draft initial redline language for a specific contract clause
-toolsAllowed: []
----
-```
-
-### Pattern 3: Classifier Subagent
-Delegate classification or triage decisions (e.g., GREEN/YELLOW/RED) to a subagent with a strict output schema.
+## Basic Spec
 
 ```markdown
 ---
 name: risk-classifier
-scope: Classify a contract clause as LOW, MEDIUM, or HIGH risk
+description: Classify one item into a small set of risk levels.
 toolsAllowed: []
-outputSchema:
-  classification: "LOW | MEDIUM | HIGH"
-  rationale: string
-  escalate: boolean
+returnFormat: structured JSON
+invokedBy:
+  - skill: parent-skill
 ---
 ```
 
-## Return Format Best Practices
+## Return Contract
 
-Always define a structured return format in the subagent spec. JSON is preferred for programmatic consumption:
+Prefer structured output:
 
 ```json
 {
-  "result": "...",
+  "result": "low | medium | high",
   "confidence": "high | medium | low",
-  "missing": ["field1", "field2"]
+  "rationale": "short explanation",
+  "missing": []
 }
 ```
+
+## Design Rules
+
+- Give the subagent one job.
+- Restrict tools to only what it needs.
+- Tell it what not to do.
+- Define how it reports missing input.
+- Let the parent skill format the final user-facing answer.

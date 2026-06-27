@@ -1,60 +1,60 @@
 # Plugin Name
 
-One-paragraph description of what this plugin does, who it's for, and what problems it solves.
+One-paragraph description of what this plugin does, who it helps, and what problem it solves.
 
 ## Target Users
 
-- **Role A** — Primary use case
-- **Role B** — Secondary use case
+- Role A: primary use case.
+- Role B: secondary use case.
 
 ## Installation
 
 ```bash
-claude plugins add cowork-plugin-hub/plugin-name
+claude plugin install plugin-name@cowork-plugin-hub
 ```
 
 ## Quick Start
 
-1. Install the plugin
-2. Configure your local settings file (see below)
-3. Connect your tools via MCP (see CONNECTORS.md)
+1. Install the plugin.
+2. Configure connectors if the plugin uses MCP.
+3. Try one natural-language request that should trigger the skill.
+4. Run any slash commands documented below.
 
 ## Commands
 
 | Command | What it does |
-|---------|--------------|
+| --- | --- |
 | `/plugin-name:example-command` | Description |
 
 ## Skills
 
 | Skill | Description |
-|-------|-------------|
+| --- | --- |
 | `example-skill` | Description |
 
 ## Configuration
 
-Create a `plugin-name.local.md` file to customize behavior for your organization:
-
-```markdown
-# Plugin Config
-
-## Your Settings
-- Setting 1: value
-- Setting 2: value
-```
+Keep private configuration outside the repository. If you need local notes, create an ignored file such as `plugin-name.local.md`.
 
 ## File Structure
 
-```
+```text
 plugin-name/
-├── .claude-plugin/plugin.json
-├── .mcp.json
-├── commands/
-│   └── example-command.md
-├── skills/
-│   └── example-skill/SKILL.md
-├── subagents/
-│   └── example-subagent.md
-├── CONNECTORS.md
-└── README.md
+|-- .claude-plugin/plugin.json
+|-- .mcp.json
+|-- README.md
+|-- CONNECTORS.md
+|-- commands/
+|   `-- example-command.md
+|-- skills/
+|   `-- example-skill/SKILL.md
+|-- subagents/
+|   `-- example-subagent.md
+|-- hooks/
+|   `-- hooks.json
+|-- schemas/
+|   `-- example-output.schema.json
+|-- scripts/
+|   `-- README.md
+`-- state_config.json
 ```
