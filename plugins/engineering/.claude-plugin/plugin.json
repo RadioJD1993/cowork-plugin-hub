@@ -1,0 +1,8 @@
+{
+  "name": "engineering",
+  "version": "0.1.0",
+  "description": "AI-powered engineering assistant for code review, architecture analysis, incident response, and deploy checklists.",
+  "author": {
+    "name": "RadioJD1993"
+  }
+}
