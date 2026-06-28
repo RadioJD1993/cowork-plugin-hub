@@ -1,0 +1,6 @@
+{
+  "name": "fixture-wip",
+  "owner": { "name": "fixture" },
+  "metadata": { "wip": ["plugins/sample"] },
+  "plugins": []
+}

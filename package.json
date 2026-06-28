@@ -33,6 +33,7 @@
     "labels:sync": "node scripts/sync-labels.mjs",
     "package:release": "node scripts/package-release.mjs",
     "validate:cli": "claude plugin validate .claude-plugin/marketplace.json",
-    "validate:all": "npm run validate && npm run validate:cli"
+    "validate:all": "npm run validate && npm run validate:cli",
+    "test": "node --test test/validate.test.mjs"
   }
 }

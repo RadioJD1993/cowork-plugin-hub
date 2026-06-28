@@ -2,7 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+// HUB_VALIDATE_ROOT lets the test suite point the validator at a fixture hub.
+// Defaults to the repository root (the parent of scripts/).
+const repoRoot = process.env.HUB_VALIDATE_ROOT
+  ? path.resolve(process.env.HUB_VALIDATE_ROOT)
+  : path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
 const warnings = [];
 
@@ -14,7 +18,8 @@ const ignoredDirs = new Set([
   "dist",
   "build",
   "coverage",
-  ".venv"
+  ".venv",
+  "test"
 ]);
 
 const textExtensions = new Set([
@@ -439,7 +444,7 @@ function main() {
   const pluginDirs = [
     ...immediatePluginDirs("plugins"),
     ...immediatePluginDirs("examples"),
-    "base/skeleton"
+    ...(isDirectory("base/skeleton") ? ["base/skeleton"] : [])
   ];
 
   for (const pluginDir of pluginDirs) {
