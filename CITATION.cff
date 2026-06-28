@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you reference this hub, please cite it using these metadata."
+title: "CoWork Plugin Hub"
+abstract: "A privacy-first hub for building Claude Cowork plugins: a plugin builder, templates, docs, validation, and a vetted plugin catalog."
+type: software
+authors:
+  - name: "RadioJD1993"
+repository-code: "https://github.com/RadioJD1993/cowork-plugin-hub"
+url: "https://github.com/RadioJD1993/cowork-plugin-hub"
+license: Apache-2.0
+version: "0.2.0"
+keywords:
+  - claude
+  - cowork
+  - claude-code
+  - mcp
+  - plugins
+  - marketplace

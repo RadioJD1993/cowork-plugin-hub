@@ -12,6 +12,11 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - GitHub maintenance automation for label sync and release packaging.
 - Hugging Face Space guidance, a Space-backed example plugin, and a ready-to-publish
   static catalog Space.
+- Community and governance scaffolding: `ROADMAP.md`, `CITATION.cff`, `.editorconfig`,
+  a Dependabot config for GitHub Actions, an issue-chooser `config.yml` (Discussions and
+  private security-advisory links), `bug` / `good first issue` / `help wanted` labels,
+  and a repository-discoverability checklist (description, topics, social preview) in the
+  maintenance guide.
 
 ### Changed
 - The required validation job is explicitly named `validate` so branch protection

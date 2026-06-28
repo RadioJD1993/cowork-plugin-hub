@@ -1,0 +1,12 @@
+version: 2
+
+updates:
+  # Keep CI action versions current. The hub has no runtime npm dependencies and
+  # no lockfile yet, so the "npm" ecosystem is intentionally omitted; add an
+  # "npm" block here once package.json gains dependencies and a lockfile.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci

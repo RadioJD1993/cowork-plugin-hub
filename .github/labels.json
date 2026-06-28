@@ -38,5 +38,20 @@
     "name": "release",
     "color": "0e8a16",
     "description": "Versioning, packaging, changelog, or release workflow."
+  },
+  {
+    "name": "bug",
+    "color": "d73a4a",
+    "description": "Something is not working."
+  },
+  {
+    "name": "good first issue",
+    "color": "7057ff",
+    "description": "A good issue for a first-time contributor; powers the GitHub /contribute page."
+  },
+  {
+    "name": "help wanted",
+    "color": "008672",
+    "description": "The maintainer is looking for help on this issue."
   }
 ]

@@ -18,6 +18,15 @@ Recommended settings:
 
 The `validate` workflow job name is intentionally stable because branch protection keys off the status context.
 
+## Repository Discoverability
+
+These live in GitHub repo settings, not in tracked files, so set them once in the UI:
+
+- **Description:** a one-line, keyword-rich summary, e.g. "A privacy-first hub and builder for Claude Cowork plugins — skills, slash commands, agents, and remote MCP connectors."
+- **Topics:** `claude-code`, `claude-cowork`, `mcp`, `plugins`, `plugin-marketplace`, `skills`, `anthropic`, `ai-agents`. Topics power GitHub topic pages and search.
+- **Social preview image:** add one under Settings -> General so shared links render a card.
+- **Discussions:** enable under Settings -> General -> Features. The issue chooser ([../.github/ISSUE_TEMPLATE/config.yml](../.github/ISSUE_TEMPLATE/config.yml)) already links to it; the link is inert until Discussions is on.
+
 ## Labels
 
 Labels are defined in [../.github/labels.json](../.github/labels.json) and synced by the `Sync labels` workflow on `main` or manually through GitHub Actions.
