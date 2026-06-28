@@ -8,6 +8,7 @@
     {
       "name": "plugin-builder",
       "version": "0.2.0",
+      "tier": "verified",
       "category": "development",
       "description": "A meta-plugin for planning, scaffolding, customizing, and validating Cowork plugins. Guides you from an idea to an installable, spec-compliant plugin and checks it for privacy and structural issues before you ship.",
       "source": "./plugins/plugin-builder",

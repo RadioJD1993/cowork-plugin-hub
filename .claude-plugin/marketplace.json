@@ -20,6 +20,7 @@
       },
       "homepage": "https://github.com/RadioJD1993/cowork-plugin-hub/tree/main/plugins/plugin-builder",
       "license": "Apache-2.0",
+      "tier": "verified",
       "category": "development",
       "keywords": ["meta", "builder", "scaffolding", "validation", "cowork"]
     }

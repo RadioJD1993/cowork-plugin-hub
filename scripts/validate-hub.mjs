@@ -42,6 +42,7 @@ const textBasenames = new Set([
 const KEBAB = /^[a-z0-9][a-z0-9-]*$/;
 const SEMVER = /^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/;
 const EXTERNAL_SOURCE_KINDS = new Set(["npm", "url", "github", "git-subdir"]);
+const TRUST_TIERS = new Set(["verified", "example", "community"]);
 
 const privacyPatterns = [
   {
@@ -244,6 +245,12 @@ function validateMarketplace() {
     const desc = String(plugin.description);
     if (desc.length < 10 || desc.length > 2000) {
       errors.push(`${marketplacePath}: "${plugin.name}" description must be 10-2000 characters`);
+    }
+
+    if (plugin.tier !== undefined && !TRUST_TIERS.has(plugin.tier)) {
+      errors.push(`${marketplacePath}: "${plugin.name}" tier must be one of: ${[...TRUST_TIERS].join(", ")} (got "${plugin.tier}")`);
+    } else if (plugin.tier === undefined) {
+      warnings.push(`${marketplacePath}: "${plugin.name}" has no "tier"; it will display as "community" (unvetted). See VETTING.md.`);
     }
 
     if (typeof plugin.source === "string") {

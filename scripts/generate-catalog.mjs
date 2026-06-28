@@ -86,6 +86,7 @@ function buildCatalog() {
     return {
       name: plugin.name,
       version: plugin.version ?? manifest.version ?? marketplace.metadata?.version ?? "",
+      tier: plugin.tier ?? "community",
       category: plugin.category ?? manifest.category ?? "uncategorized",
       description: plugin.description ?? manifest.description ?? firstParagraph(readme),
       source: sourceDir ? `./${sourceDir}` : plugin.source,
@@ -120,6 +121,7 @@ function renderMarkdown(catalog) {
       return `| ${[
         nameCell,
         markdownEscape(plugin.version),
+        markdownEscape(plugin.tier),
         markdownEscape(plugin.category),
         markdownEscape(plugin.description),
         markdownEscape(plugin.componentSummary),
@@ -130,10 +132,10 @@ function renderMarkdown(catalog) {
 
   return `# Plugin Catalog
 
-Generated from [../.claude-plugin/marketplace.json](../.claude-plugin/marketplace.json). Run \`npm run catalog\` after changing marketplace entries, plugin manifests, or plugin components.
+Generated from [../.claude-plugin/marketplace.json](../.claude-plugin/marketplace.json). Run \`npm run catalog\` after changing marketplace entries, plugin manifests, or plugin components. The **Tier** column is the trust level defined in [../VETTING.md](../VETTING.md).
 
-| Plugin | Version | Category | Description | Components | Install |
-| --- | --- | --- | --- | --- | --- |
+| Plugin | Version | Tier | Category | Description | Components | Install |
+| --- | --- | --- | --- | --- | --- | --- |
 ${rows}
 
 ## Machine-Readable Catalog

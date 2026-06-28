@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CoWork Plugin Catalog</title>
+    <meta name="description" content="Browse vetted, installable Claude Cowork plugins from the CoWork Plugin Hub. Each plugin shows its trust tier, components, and a one-line install command.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CoWork Plugin Catalog">
+    <meta property="og:description" content="Vetted, installable Claude Cowork plugins with trust tiers and copy-paste install commands.">
+    <meta name="twitter:card" content="summary">
     <style>
       :root {
         color-scheme: light;
@@ -146,6 +151,47 @@
         color: var(--yellow);
       }
 
+      .pill.tier {
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        background: #eaeef2;
+        color: #57606a;
+      }
+
+      .pill.tier.verified {
+        background: #dafbe1;
+        color: var(--green);
+      }
+
+      .pill.tier.example {
+        background: #fff8c5;
+        color: var(--yellow);
+      }
+
+      .install {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px;
+        align-items: stretch;
+      }
+
+      .copy {
+        min-height: 38px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--panel);
+        color: var(--ink);
+        font: inherit;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .copy:hover {
+        background: #f3f4f6;
+      }
+
       code {
         display: block;
         overflow-x: auto;
@@ -210,11 +256,16 @@
       function searchable(plugin) {
         return [
           plugin.name,
+          plugin.tier,
           plugin.category,
           plugin.description,
           plugin.componentSummary,
           ...(plugin.keywords || [])
         ].join(" ").toLowerCase();
+      }
+
+      function tierClass(tier) {
+        return ["verified", "example", "community"].includes(tier) ? tier : "community";
       }
 
       function escapeHtml(value) {
@@ -234,12 +285,16 @@
           <article>
             <h2>${escapeHtml(plugin.name)}</h2>
             <div class="meta">
+              <span class="pill tier ${tierClass(plugin.tier)}">${escapeHtml(plugin.tier || "community")}</span>
               <span class="pill version">${escapeHtml(plugin.version || "unversioned")}</span>
               <span class="pill">${escapeHtml(plugin.category || "uncategorized")}</span>
               <span class="pill components">${escapeHtml(plugin.componentSummary)}</span>
             </div>
             <p>${escapeHtml(plugin.description)}</p>
-            <code>${escapeHtml(plugin.install)}</code>
+            <div class="install">
+              <code>${escapeHtml(plugin.install)}</code>
+              <button class="copy" type="button" data-install="${escapeHtml(plugin.install)}">Copy</button>
+            </div>
           </article>
         `).join("");
         count.textContent = `${visible.length} of ${plugins.length}`;
@@ -259,6 +314,18 @@
         });
 
       search.addEventListener("input", render);
+
+      grid.addEventListener("click", (event) => {
+        const button = event.target.closest(".copy");
+        if (!button || !navigator.clipboard) {
+          return;
+        }
+        navigator.clipboard.writeText(button.getAttribute("data-install")).then(() => {
+          const original = button.textContent;
+          button.textContent = "Copied";
+          setTimeout(() => { button.textContent = original; }, 1200);
+        });
+      });
     </script>
   </body>
 </html>

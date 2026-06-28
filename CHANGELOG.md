@@ -12,10 +12,32 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - GitHub maintenance automation for label sync and release packaging.
 - Hugging Face Space guidance, a Space-backed example plugin, and a ready-to-publish
   static catalog Space.
+- **Trust tiers** for catalog plugins (`verified` / `example` / `community`),
+  defined in `VETTING.md`, rendered in the catalog table, the catalog Space, and
+  the README, and validated by `npm run validate`.
+- `docs/plugin-security.md`: what installing a plugin grants, what the hub checks
+  before listing one, and the delisting process for unsafe plugins.
+- `docs/tutorial-first-plugin.md`: a 10-minute end-to-end "build your first plugin"
+  walkthrough.
+- `docs/assets/demo.tape`: a VHS recipe for generating the README demo GIF.
+- Catalog Space: a per-card trust-tier pill, a copy-install button, and Open Graph
+  / description meta tags.
 
 ### Changed
 - The required validation job is explicitly named `validate` so branch protection
   can keep using a stable status check.
+- The hub validator now structurally inspects each `.mcp.json` and **rejects
+  local/`stdio` connectors** (Cowork runs remote `http`/`sse` only), and an
+  installable plugin under `plugins/` that is **not listed** in the marketplace is
+  now an error unless it is allowlisted via `metadata.wip`.
+- The `plugin-builder` marketplace entry gained `displayName`, `homepage`,
+  `license`, and `tier` for the in-app Discover pane.
+
+### Fixed
+- Moved the work-in-progress `legal` and `engineering` plugins off `main` onto
+  `feat/legal` and `feat/engineering`; they shipped `stdio` connectors and were
+  unlisted, contradicting the catalog and the branch strategy.
+- Removed an inaccurate `$schema` claim from the `plugin-builder` README.
 
 ## [0.2.0] - 2026-06-27
 

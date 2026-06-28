@@ -12,9 +12,14 @@ Browse the generated catalog in [docs/catalog.md](./docs/catalog.md), or use [do
 
 ## Plugin Catalog
 
-| Plugin | What it does | Connectors |
-| --- | --- | --- |
-| **[plugin-builder](./plugins/plugin-builder)** | Guided, validated workflow to create, customize, and validate Cowork plugins. | None |
+| Plugin | Tier | What it does | Connectors |
+| --- | --- | --- | --- |
+| **[plugin-builder](./plugins/plugin-builder)** | `verified` | Guided, validated workflow to create, customize, and validate Cowork plugins. | None |
+
+Every catalog entry carries a **trust tier** — `verified` (maintainer-reviewed),
+`example` (teaching only), or `community` (listed but not vetted). What each tier
+means and what `verified` requires is in [VETTING.md](./VETTING.md); what
+installing a plugin actually grants is in [docs/plugin-security.md](./docs/plugin-security.md).
 
 > Domain plugins (legal, engineering, etc.) are developed on `feat/<domain>` branches and merged into this catalog once they pass the privacy checklist and the validator.
 
@@ -98,7 +103,10 @@ Only the manifest, README, and at least one skill are required for a useful plug
 
 ## Documentation
 
+- [Build Your First Plugin (10-minute tutorial)](./docs/tutorial-first-plugin.md)
 - [Plugin Authoring Guide](./docs/plugin-authoring-guide.md)
+- [Plugin Vetting and Trust Tiers](./VETTING.md)
+- [Plugin Security: What Installing a Plugin Means](./docs/plugin-security.md)
 - [Generated Catalog](./docs/catalog.md)
 - [GitHub Maintenance](./docs/github-maintenance.md)
 - [Skill Writing Guide](./docs/skill-writing-guide.md)
@@ -116,7 +124,7 @@ Only the manifest, README, and at least one skill are required for a useful plug
 - Run `npm run validate` before committing.
 - Review `.claude-plugin/marketplace.json` whenever plugin sources change.
 
-See [Privacy and Sanitization](./docs/privacy-and-sanitization.md) for the full checklist, and [SECURITY.md](./SECURITY.md) if you find a leaked secret or vulnerability.
+See [Privacy and Sanitization](./docs/privacy-and-sanitization.md) for the full checklist, and [SECURITY.md](./SECURITY.md) if you find a leaked secret or vulnerability. For what installing a third-party plugin grants and how plugins are vetted or delisted, see [docs/plugin-security.md](./docs/plugin-security.md) and [VETTING.md](./VETTING.md).
 
 ## Branch Strategy
 
