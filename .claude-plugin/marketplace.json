@@ -11,12 +11,15 @@
   "plugins": [
     {
       "name": "plugin-builder",
+      "displayName": "Plugin Builder",
       "source": "./plugins/plugin-builder",
       "description": "A meta-plugin for planning, scaffolding, customizing, and validating Cowork plugins. Guides you from an idea to an installable, spec-compliant plugin and checks it for privacy and structural issues before you ship.",
       "version": "0.2.0",
       "author": {
         "name": "RadioJD1993"
       },
+      "homepage": "https://github.com/RadioJD1993/cowork-plugin-hub/tree/main/plugins/plugin-builder",
+      "license": "Apache-2.0",
       "category": "development",
       "keywords": ["meta", "builder", "scaffolding", "validation", "cowork"]
     }

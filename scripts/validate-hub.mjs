@@ -188,16 +188,24 @@ function localSourceDir(source) {
 }
 
 function validateMarketplace() {
+  const empty = { listedDirs: new Set(), wipDirs: new Set() };
   const marketplacePath = ".claude-plugin/marketplace.json";
   if (!exists(marketplacePath)) {
     errors.push(`${marketplacePath}: missing marketplace manifest`);
-    return new Set();
+    return empty;
   }
 
   const marketplace = readJson(marketplacePath);
   if (!marketplace) {
-    return new Set();
+    return empty;
   }
+
+  // Plugins under plugins/ that are intentionally not listed yet (work-in-progress).
+  // Listing a dir here downgrades the "unlisted plugin" error to a warning.
+  const wipDirs = new Set(
+    (Array.isArray(marketplace.metadata?.wip) ? marketplace.metadata.wip : [])
+      .map((dir) => String(dir).replace(/^\.\//, "").replace(/\/+$/, ""))
+  );
 
   // Root required fields per the Claude Code marketplace schema.
   if (!marketplace.name) {
@@ -212,7 +220,7 @@ function validateMarketplace() {
 
   if (!Array.isArray(marketplace.plugins)) {
     errors.push(`${marketplacePath}: "plugins" must be an array`);
-    return new Set();
+    return { listedDirs: new Set(), wipDirs };
   }
 
   const listedDirs = new Set();
@@ -263,7 +271,7 @@ function validateMarketplace() {
     }
   }
 
-  return listedDirs;
+  return { listedDirs, wipDirs };
 }
 
 function immediatePluginDirs(parentDir) {
@@ -306,7 +314,38 @@ function requireFrontmatterKeys(relativePath, keys, forbidden = []) {
   }
 }
 
-function validatePlugin(relativeDir, listedDirs) {
+function validateMcpServers(relativeDir) {
+  const mcpPath = path.posix.join(relativeDir, ".mcp.json");
+  if (!exists(mcpPath)) {
+    return;
+  }
+
+  const config = readJson(mcpPath);
+  if (!config) {
+    return;
+  }
+
+  const servers = config.mcpServers;
+  if (!servers || typeof servers !== "object") {
+    return;
+  }
+
+  for (const [serverName, server] of Object.entries(servers)) {
+    if (!server || typeof server !== "object") {
+      continue;
+    }
+
+    // Cowork runs remote connectors only. A stdio/command-based server is CLI-only and will not load in Cowork.
+    const isLocal = server.type === "stdio" || (!server.url && (server.command || Array.isArray(server.args)));
+    if (isLocal) {
+      errors.push(`${mcpPath}: MCP server "${serverName}" is a local/stdio connector; Cowork supports remote servers only — use "type": "http" or "sse" with a "url" (see docs/mcp-connector-guide.md)`);
+    } else if (server.type && server.type !== "http" && server.type !== "sse") {
+      errors.push(`${mcpPath}: MCP server "${serverName}" has unsupported "type": "${server.type}"; Cowork supports remote "http" or "sse" only`);
+    }
+  }
+}
+
+function validatePlugin(relativeDir, listedDirs, wipDirs) {
   const manifestPath = path.posix.join(relativeDir, ".claude-plugin/plugin.json");
   const manifest = readJson(manifestPath);
   if (!manifest) {
@@ -384,13 +423,19 @@ function validatePlugin(relativeDir, listedDirs) {
     requireFrontmatterKeys(agentFile, ["name", "description"]);
   }
 
+  validateMcpServers(relativeDir);
+
   if (relativeDir.startsWith("plugins/") && !listedDirs.has(relativeDir)) {
-    warnings.push(`${relativeDir}: installable plugin is not listed in .claude-plugin/marketplace.json`);
+    if (wipDirs.has(relativeDir)) {
+      warnings.push(`${relativeDir}: work-in-progress plugin (listed in marketplace metadata.wip); not yet in the public catalog`);
+    } else {
+      errors.push(`${relativeDir}: installable plugin under plugins/ is not listed in .claude-plugin/marketplace.json. Add a "source": "./${relativeDir}" entry to publish it, or add "${relativeDir}" to metadata.wip if it is not ready.`);
+    }
   }
 }
 
 function main() {
-  const listedDirs = validateMarketplace();
+  const { listedDirs, wipDirs } = validateMarketplace();
   const pluginDirs = [
     ...immediatePluginDirs("plugins"),
     ...immediatePluginDirs("examples"),
@@ -398,7 +443,7 @@ function main() {
   ];
 
   for (const pluginDir of pluginDirs) {
-    validatePlugin(pluginDir, listedDirs);
+    validatePlugin(pluginDir, listedDirs, wipDirs);
   }
 
   scanPrivacy();

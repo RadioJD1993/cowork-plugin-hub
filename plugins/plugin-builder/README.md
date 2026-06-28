@@ -31,7 +31,7 @@ claude plugin install plugin-builder@cowork-plugin-hub
 
 ## What It Produces
 
-- `.claude-plugin/plugin.json` (with `$schema` for editor validation)
+- `.claude-plugin/plugin.json` (kebab-case `name`, plus `version`, `description`, and `author`)
 - `README.md`
 - `skills/*/SKILL.md` (frontmatter: `name` + `description`)
 - `commands/*.md` when needed (frontmatter: `name` + `description`, optional `argument-hint`)
