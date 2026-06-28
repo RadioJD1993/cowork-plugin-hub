@@ -24,6 +24,9 @@ jobs:
       - name: Run hub validation
         run: npm run validate
 
+      - name: Run validator unit tests
+        run: npm test
+
       - name: Check generated catalog
         run: npm run catalog:check
 

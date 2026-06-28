@@ -12,10 +12,16 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - GitHub maintenance automation for label sync and release packaging.
 - Hugging Face Space guidance, a Space-backed example plugin, and a ready-to-publish
   static catalog Space.
+- A `node:test` suite (`npm test`) that runs the validator against fixture hubs and
+  proves it rejects stdio connectors, unlisted plugins, `triggers:` frontmatter, and
+  committed secrets (and accepts a clean hub and `metadata.wip` plugins), wired into
+  CI. Tests point the validator at fixtures via a new `HUB_VALIDATE_ROOT` env hook.
 
 ### Changed
 - The required validation job is explicitly named `validate` so branch protection
   can keep using a stable status check.
+- The validator no longer errors when `base/skeleton` is absent and skips the `test/`
+  fixtures during the repo-wide privacy and structure scan.
 
 ## [0.2.0] - 2026-06-27
 
