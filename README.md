@@ -8,7 +8,15 @@ A privacy-first hub for building **Claude Cowork** plugins — a general-purpose
 
 Everything here is intentionally generic: it teaches the patterns behind production plugins without publishing private client, firm, employee, tool, or local-machine details.
 
+**What you get:** a guided plugin builder, a copyable skeleton, copy-paste component templates, three worked examples, an end-to-end tutorial, and a privacy + spec validator (with a test suite) — all **Cowork-correct by construction**.
+
+**Why a Cowork-specific hub?** Cowork is not the Claude Code CLI: it runs remote MCP connectors only (no local `stdio`), discovers agents from `agents/`, and activates skills from their `description` (no `triggers:` field). Plugins here follow those rules by default, so they install and run in Cowork without surprises — see [docs/cowork-vs-cli.md](./docs/cowork-vs-cli.md).
+
 Browse the generated catalog in [docs/catalog.md](./docs/catalog.md), or use [docs/catalog.json](./docs/catalog.json) from tools and demos.
+
+## Contents
+
+[Catalog](#plugin-catalog) · [Install](#install) · [What Is Here](#what-is-here) · [Quick Start](#quick-start-for-contributors) · [Plugin Anatomy](#plugin-anatomy) · [Documentation](#documentation) · [Safety](#safety-rules) · [Branch Strategy](#branch-strategy) · [Contributing](#contributing)
 
 ## Plugin Catalog
 
@@ -64,11 +72,14 @@ npm run validate
 npm run catalog
 ```
 
-Scaffold a new plugin:
+Scaffold a new plugin (cross-platform; defaults to a minimal plugin, add `--full` for every component):
 
 ```bash
-bash scripts/new-plugin.sh
+npm run new
+# non-interactive: npm run new -- my-plugin "What it does" "Your Name"
 ```
+
+On macOS/Linux (or Windows Git Bash) you can also run `bash scripts/new-plugin.sh`.
 
 Then edit the new folder under `plugins/`, list it in `.claude-plugin/marketplace.json` with a `source` path, run validation, and open a pull request.
 
@@ -103,18 +114,12 @@ Only the manifest, README, and at least one skill are required for a useful plug
 
 ## Documentation
 
-- [Build Your First Plugin (10-minute tutorial)](./docs/tutorial-first-plugin.md)
-- [Plugin Authoring Guide](./docs/plugin-authoring-guide.md)
-- [Plugin Vetting and Trust Tiers](./VETTING.md)
-- [Plugin Security: What Installing a Plugin Means](./docs/plugin-security.md)
-- [Generated Catalog](./docs/catalog.md)
-- [GitHub Maintenance](./docs/github-maintenance.md)
-- [Skill Writing Guide](./docs/skill-writing-guide.md)
-- [Agent Patterns](./docs/subagent-patterns.md)
-- [MCP Connector Guide](./docs/mcp-connector-guide.md)
-- [Hugging Face Spaces](./docs/hugging-face-spaces.md)
-- [Cowork vs. Claude Code CLI](./docs/cowork-vs-cli.md)
-- [Privacy and Sanitization](./docs/privacy-and-sanitization.md)
+Start at the **[documentation index](./docs/README.md)**, which groups everything by what you are doing. Highlights:
+
+- **New here:** [Build Your First Plugin](./docs/tutorial-first-plugin.md) · [Cowork vs. CLI](./docs/cowork-vs-cli.md) · [Glossary](./docs/glossary.md)
+- **Authoring:** [Authoring Guide](./docs/plugin-authoring-guide.md) · [Choosing a Component](./docs/choosing-components.md) · [Skills](./docs/skill-writing-guide.md) · [Agents](./docs/subagent-patterns.md) · [MCP Connectors](./docs/mcp-connector-guide.md) · [Troubleshooting](./docs/troubleshooting.md) · [FAQ](./docs/faq.md)
+- **Publishing & trust:** [Privacy and Sanitization](./docs/privacy-and-sanitization.md) · [Vetting and Trust Tiers](./VETTING.md) · [Plugin Security](./docs/plugin-security.md) · [Hugging Face Spaces](./docs/hugging-face-spaces.md)
+- **Maintaining:** [GitHub Maintenance](./docs/github-maintenance.md) · [Generated Catalog](./docs/catalog.md)
 
 ## Safety Rules
 

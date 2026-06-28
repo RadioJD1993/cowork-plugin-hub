@@ -31,6 +31,11 @@ aims to follow [Semantic Versioning](https://semver.org/).
 - `docs/assets/demo.tape`: a VHS recipe for generating the README demo GIF.
 - Catalog Space: a per-card trust-tier pill, a copy-install button, and Open Graph
   / description meta tags.
+- Documentation depth: a grouped docs landing page (`docs/README.md`), a "skill vs
+  command vs agent vs MCP" decision guide, a troubleshooting page, an FAQ, and a glossary.
+- A cross-platform Node scaffolder (`npm run new`) that defaults to a minimal plugin
+  (add `--full` for every component), alongside the existing bash script.
+- An internal Markdown link checker (`npm run links`), wired into CI.
 
 ### Changed
 - The required validation job is explicitly named `validate` so branch protection
@@ -43,12 +48,16 @@ aims to follow [Semantic Versioning](https://semver.org/).
   now an error unless it is allowlisted via `metadata.wip`.
 - The `plugin-builder` marketplace entry gained `displayName`, `homepage`,
   `license`, and `tier` for the in-app Discover pane.
+- CI gained a weekly drift cron, a Node 18 compatibility job, and a Markdown
+  link-check step. The README gained a contents bar, a "what you get" summary, and a
+  consolidated "why a Cowork-specific hub" note.
 
 ### Fixed
 - Moved the work-in-progress `legal` and `engineering` plugins off `main` onto
   `feat/legal` and `feat/engineering`; they shipped `stdio` connectors and were
   unlisted, contradicting the catalog and the branch strategy.
 - Removed an inaccurate `$schema` claim from the `plugin-builder` README.
+- Corrected a broken relative link in `templates/CONNECTORS.md`.
 
 ## [0.2.0] - 2026-06-27
 

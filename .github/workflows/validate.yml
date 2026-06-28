@@ -6,7 +6,10 @@ on:
     branches:
       - main
       - "feat/**"
+      - "chore/**"
       - "codex/**"
+  schedule:
+    - cron: "0 6 * * 1" # weekly drift check (Mondays 06:00 UTC)
 
 jobs:
   hub-validate:
@@ -27,13 +30,31 @@ jobs:
       - name: Run validator unit tests
         run: npm test
 
+      - name: Check Markdown links
+        run: npm run links
+
       - name: Check generated catalog
         run: npm run catalog:check
+
+  node-compat:
+    name: node 18 compatibility (advisory)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Validate the engines floor (no dev dependencies)
+        run: npm run validate && npm run links && npm run catalog:check
 
   cli-validate:
     name: claude plugin validate (advisory)
     runs-on: ubuntu-latest
-    continue-on-error: true # canonical check is advisory until the CLI is pinned; hub-validate is the gate
+    continue-on-error: true # advisory until the CLI version is pinned; hub-validate is the gate
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -44,6 +65,8 @@ jobs:
           node-version: 22
 
       - name: Install Claude Code CLI
+        # Pin to a specific version (e.g. @anthropic-ai/claude-code@x.y.z) to make this
+        # job a reliable required gate instead of an advisory drift check.
         run: npm install -g @anthropic-ai/claude-code
 
       - name: Validate marketplace manifest

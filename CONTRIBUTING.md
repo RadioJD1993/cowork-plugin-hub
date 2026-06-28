@@ -5,7 +5,7 @@ Thanks for helping make reusable CoWork plugin patterns easier to share. Please 
 ## Contribution Flow
 
 1. Branch from `main` (use `feat/<domain>` for a new domain plugin).
-2. Scaffold a plugin with `bash scripts/new-plugin.sh` or copy `base/skeleton`.
+2. Scaffold a plugin with `npm run new` (cross-platform), `bash scripts/new-plugin.sh`, or copy `base/skeleton`.
 3. Keep public content generic and reusable.
 4. List the plugin in `.claude-plugin/marketplace.json` (see below).
 5. Run `npm run validate` and, when the CLI is available, `claude plugin validate`.
